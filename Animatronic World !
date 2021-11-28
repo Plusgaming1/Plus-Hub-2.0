@@ -1,0 +1,420 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local PlusHubAnimatronicWorld = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local Main_2 = Instance.new("Frame")
+local Tabs = Instance.new("ScrollingFrame")
+local Home = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+local UIGridLayout = Instance.new("UIGridLayout")
+local Morphs = Instance.new("TextButton")
+local UICorner_2 = Instance.new("UICorner")
+local OpenTabs = Instance.new("Folder")
+local Home_2 = Instance.new("Frame")
+local Welcome = Instance.new("TextLabel")
+local UserImage = Instance.new("ImageLabel")
+local Credits = Instance.new("TextLabel")
+local Credits_2 = Instance.new("TextLabel")
+local Morphs_2 = Instance.new("Frame")
+local Morph = Instance.new("TextButton")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local UIGridLayout_2 = Instance.new("UIGridLayout")
+local Button = Instance.new("TextButton")
+local MorphRemover = Instance.new("TextButton")
+local Exit = Instance.new("TextButton")
+local Close = Instance.new("TextButton")
+local TextLabel = Instance.new("TextLabel")
+
+--Scripts:
+
+local function JSXIQG_fake_script() -- Welcome.LocalScript 
+	local script = Instance.new('LocalScript', Welcome)
+
+	script.Parent.Text = ("Welcome, ".. game.Players.LocalPlayer.Name.. ".")
+end
+coroutine.wrap(JSXIQG_fake_script)()
+local function PUQXW_fake_script() -- UserImage.LocalScript 
+	local script = Instance.new('LocalScript', UserImage)
+
+	script.Parent.Image = game.Players:GetUserThumbnailAsync(game.Players.LocalPlayer.UserId,Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size352x352)
+end
+coroutine.wrap(PUQXW_fake_script)()
+local function AHMAZ_fake_script() -- ScrollingFrame.LocalScript 
+	local script = Instance.new('LocalScript', ScrollingFrame)
+
+	script.Parent.ChildAdded:Connect(function()
+		script.Parent.CanvasSize = script.Parent.CanvasSize + UDim2.new(0,0,0,25)
+	end)
+end
+coroutine.wrap(AHMAZ_fake_script)()
+local function JKWQ_fake_script() -- Morph.LocalScript 
+	local script = Instance.new('LocalScript', Morph)
+
+	repeat wait(1) until game.Loaded
+	local open = false
+	script.Parent.MouseButton1Click:Connect(function()
+		if open then
+			open = false
+			script.Parent.ScrollingFrame.Visible = false
+		else
+			open = true
+			script.Parent.ScrollingFrame.Visible = true
+		end
+	end)
+	for i, v in pairs(game.Workspace:GetChildren()) do
+		if v:IsA("Model") then
+			if v:FindFirstChild("Humanoid") and v:FindFirstChild("Head") then
+				if not game.Players:GetPlayerFromCharacter(v) then
+					local button = script.Button:Clone()
+					button.Parent = script.Parent.ScrollingFrame
+					button.Text = v.Name
+					button.Name = button.Text
+					button.MouseButton1Click:Connect(function()
+						firetouchinterest(game.Players.LocalPlayer.Character.Torso,v.Head,0)
+						wait(0.1)
+						firetouchinterest(game.Players.LocalPlayer.Character.Torso,v.Head,1)
+					end)
+					wait(0.1)
+				end
+			end
+		end
+	end
+end
+coroutine.wrap(JKWQ_fake_script)()
+local function TBSEW_fake_script() -- MorphRemover.LocalScript 
+	local script = Instance.new('LocalScript', MorphRemover)
+
+	script.Parent.MouseButton1Click:Connect(function()
+		firetouchinterest(game.Players.LocalPlayer.Character.Torso,game.Workspace["Morph remover"].Button,0)
+		wait(0.1)
+		firetouchinterest(game.Players.LocalPlayer.Character.Torso,game.Workspace["Morph remover"].Button,1)
+	end)
+end
+coroutine.wrap(TBSEW_fake_script)()
+local function ZHXNDDW_fake_script() -- Exit.LocalScript 
+	local script = Instance.new('LocalScript', Exit)
+
+	script.Parent.MouseButton1Click:Connect(function()
+		script.Parent.Parent.Parent:Destroy()
+	end)
+end
+coroutine.wrap(ZHXNDDW_fake_script)()
+local function WBAEX_fake_script() -- Close.LocalScript 
+	local script = Instance.new('LocalScript', Close)
+
+	local e = false
+	script.Parent.MouseButton1Click:Connect(function()
+		if e then
+			e = false
+			script.Parent.Parent.Main.Visible = true
+		else
+			e = true
+			script.Parent.Parent.Main.Visible = false
+		end
+	end)
+end
+coroutine.wrap(WBAEX_fake_script)()
+local function SSWVSR_fake_script() -- Main.LocalScript 
+	local script = Instance.new('LocalScript', Main)
+
+	local function EnableDrag(GuiObject)
+		local plr = game.Players.LocalPlayer
+		local m = plr:GetMouse()
+		if GuiObject:IsA("GuiButton") then
+			local LastX = m.X
+			local LastY = m.Y
+			local Clicked = false
+			GuiObject.MouseButton1Down:Connect(function()
+				Clicked = true
+				LastX = m.X
+				LastY = m.Y
+			end)
+			m.Move:Connect(function()
+				if Clicked then
+					if (m.X ~= LastX) or (m.Y ~= LastY) then
+						GuiObject.Position = UDim2.new(GuiObject.Position.X.Scale,GuiObject.Position.X.Offset - (LastX - m.X),GuiObject.Position.Y.Scale,GuiObject.Position.Y.Offset - (LastY - m.Y))
+						LastX = m.X
+						LastY = m.Y
+					end
+				end
+			end)
+			GuiObject.MouseButton1Up:Connect(function()
+				Clicked = false
+			end)
+		elseif GuiObject:IsA("GuiBase") then
+			local LastX = m.X
+			local LastY = m.Y
+			local Clicked = false
+			m.Button1Down:Connect(function()
+				local MinPos = GuiObject.AbsolutePosition
+				local MaxPos = Vector2.new(GuiObject.AbsolutePosition.X + (GuiObject.AbsoluteSize.X), GuiObject.AbsolutePosition.Y + (GuiObject.AbsoluteSize.Y))
+				if (m.X >= MinPos.X) and (m.Y >= MinPos.Y) and (m.X <= MaxPos.X) and (m.Y <= MaxPos.Y) then
+					Clicked = true
+					LastX = m.X
+					LastY = m.Y
+				end
+			end)
+			m.Move:Connect(function()
+				if Clicked then
+					if (m.X ~= LastX) or (m.Y ~= LastY) then
+						GuiObject.Position = UDim2.new(GuiObject.Position.X.Scale,GuiObject.Position.X.Offset - (LastX - m.X),GuiObject.Position.Y.Scale,GuiObject.Position.Y.Offset - (LastY - m.Y))
+						LastX = m.X
+						LastY = m.Y
+					end
+				end
+			end)
+			m.Button1Up:Connect(function()
+				Clicked = false
+			end)
+		end
+	end
+
+	EnableDrag(script.Parent)
+end
+coroutine.wrap(SSWVSR_fake_script)()
+
+--Properties:
+
+PlusHubAnimatronicWorld.Name = "PlusHub>Animatronic World"
+PlusHubAnimatronicWorld.Parent = game.CoreGui
+PlusHubAnimatronicWorld.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Main.Name = "Main"
+Main.Parent = PlusHubAnimatronicWorld
+Main.AnchorPoint = Vector2.new(0.5, 0)
+Main.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+Main.Size = UDim2.new(0.25, 0, 0.0500000007, 0)
+
+Main_2.Name = "Main"
+Main_2.Parent = Main
+Main_2.AnchorPoint = Vector2.new(0.5, 0)
+Main_2.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
+Main_2.BorderSizePixel = 0
+Main_2.Position = UDim2.new(0.5, 0, 1, 0)
+Main_2.Size = UDim2.new(1, 0, 6, 0)
+
+Tabs.Name = "Tabs"
+Tabs.Parent = Main_2
+Tabs.Active = true
+Tabs.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
+Tabs.BorderSizePixel = 0
+Tabs.Size = UDim2.new(1, 0, 0.075000003, 0)
+Tabs.CanvasSize = UDim2.new(2, 0, 0, 0)
+Tabs.ScrollBarThickness = 4
+
+Home.Name = "Home"
+Home.Parent = Tabs
+Home.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
+Home.Size = UDim2.new(0, 50, 0.800000012, 0)
+Home.Font = Enum.Font.SourceSans
+Home.Text = "Home"
+Home.TextColor3 = Color3.fromRGB(0, 0, 0)
+Home.TextScaled = true
+Home.TextSize = 14.000
+Home.TextWrapped = true
+
+UICorner.Parent = Home
+
+UIGridLayout.Parent = Tabs
+UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout.CellPadding = UDim2.new(0, 0, 0, 0)
+UIGridLayout.CellSize = UDim2.new(0, 50, 0.800000012, 0)
+
+Morphs.Name = "Morphs"
+Morphs.Parent = Tabs
+Morphs.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
+Morphs.Size = UDim2.new(0, 50, 0.800000012, 0)
+Morphs.Font = Enum.Font.SourceSans
+Morphs.Text = "Main"
+Morphs.TextColor3 = Color3.fromRGB(0, 0, 0)
+Morphs.TextScaled = true
+Morphs.TextSize = 14.000
+Morphs.TextWrapped = true
+
+UICorner_2.Parent = Morphs
+
+OpenTabs.Name = "OpenTabs"
+OpenTabs.Parent = Main_2
+
+Home_2.Name = "Home"
+Home_2.Parent = OpenTabs
+Home_2.AnchorPoint = Vector2.new(0, 1)
+Home_2.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
+Home_2.BorderSizePixel = 0
+Home_2.Position = UDim2.new(0, 0, 1, 0)
+Home_2.Size = UDim2.new(1, 0, 0.910000026, 0)
+
+Welcome.Name = "Welcome"
+Welcome.Parent = Home_2
+Welcome.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Welcome.BackgroundTransparency = 1.000
+Welcome.Size = UDim2.new(0.5, 0, 0.100000001, 0)
+Welcome.Font = Enum.Font.SourceSans
+Welcome.TextColor3 = Color3.fromRGB(0, 0, 0)
+Welcome.TextScaled = true
+Welcome.TextSize = 14.000
+Welcome.TextWrapped = true
+Welcome.TextXAlignment = Enum.TextXAlignment.Left
+
+UserImage.Name = "UserImage"
+UserImage.Parent = Home_2
+UserImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UserImage.BackgroundTransparency = 1.000
+UserImage.Position = UDim2.new(0, 0, 0.150000006, 0)
+UserImage.Size = UDim2.new(0.300000012, 0, 0.550000012, 0)
+
+Credits.Name = "Credits"
+Credits.Parent = Home_2
+Credits.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Credits.BackgroundTransparency = 1.000
+Credits.Position = UDim2.new(0.5, 0, 0.150000006, 0)
+Credits.Size = UDim2.new(0.5, 0, 0.100000001, 0)
+Credits.Font = Enum.Font.SourceSans
+Credits.Text = "Credits - Plus Gaming"
+Credits.TextColor3 = Color3.fromRGB(0, 0, 0)
+Credits.TextScaled = true
+Credits.TextSize = 14.000
+Credits.TextWrapped = true
+Credits.TextXAlignment = Enum.TextXAlignment.Left
+
+Credits_2.Name = "Credits"
+Credits_2.Parent = Home_2
+Credits_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Credits_2.BackgroundTransparency = 1.000
+Credits_2.Position = UDim2.new(0.5, 0, 0.300000012, 0)
+Credits_2.Size = UDim2.new(0.5, 0, 0.200000003, 0)
+Credits_2.Font = Enum.Font.SourceSans
+Credits_2.Text = "Game Detected: Animatronic World !"
+Credits_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+Credits_2.TextScaled = true
+Credits_2.TextSize = 14.000
+Credits_2.TextWrapped = true
+Credits_2.TextXAlignment = Enum.TextXAlignment.Left
+
+Morphs_2.Name = "Morphs"
+Morphs_2.Parent = OpenTabs
+Morphs_2.AnchorPoint = Vector2.new(0, 1)
+Morphs_2.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
+Morphs_2.BorderSizePixel = 0
+Morphs_2.Position = UDim2.new(0, 0, 1, 0)
+Morphs_2.Size = UDim2.new(1, 0, 0.910000026, 0)
+Morphs_2.Visible = false
+
+Morph.Name = "Morph"
+Morph.Parent = Morphs_2
+Morph.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+Morph.BorderSizePixel = 0
+Morph.Size = UDim2.new(1, 0, 0.100000001, 0)
+Morph.Font = Enum.Font.SourceSans
+Morph.Text = "Morphs V"
+Morph.TextColor3 = Color3.fromRGB(226, 226, 226)
+Morph.TextScaled = true
+Morph.TextSize = 14.000
+Morph.TextWrapped = true
+
+ScrollingFrame.Visible = false
+ScrollingFrame.Parent = Morph
+ScrollingFrame.Active = true
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(47, 47, 47)
+ScrollingFrame.BorderSizePixel = 0
+ScrollingFrame.Position = UDim2.new(0, 0, 1, 0)
+ScrollingFrame.Size = UDim2.new(1, 0, 9, 0)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+UIGridLayout_2.Parent = ScrollingFrame
+UIGridLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout_2.CellPadding = UDim2.new(0, 0, 0, 0)
+UIGridLayout_2.CellSize = UDim2.new(1, 0, 0, 25)
+
+Button.Name = "Button"
+Button.Parent = PlusHubAnimatronicWorld.Main.Main.OpenTabs.Morphs.Morph.LocalScript
+Button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Button.BorderSizePixel = 0
+Button.Size = UDim2.new(0, 200, 0, 50)
+Button.Font = Enum.Font.SourceSans
+Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+Button.TextScaled = true
+Button.TextSize = 14.000
+Button.TextWrapped = true
+
+MorphRemover.Name = "MorphRemover"
+MorphRemover.Parent = Morphs_2
+MorphRemover.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+MorphRemover.BorderSizePixel = 0
+MorphRemover.Position = UDim2.new(0, 0, 0.200000003, 0)
+MorphRemover.Size = UDim2.new(1, 0, 0.100000001, 0)
+MorphRemover.Font = Enum.Font.SourceSans
+MorphRemover.Text = "Remove Morph"
+MorphRemover.TextColor3 = Color3.fromRGB(226, 226, 226)
+MorphRemover.TextScaled = true
+MorphRemover.TextSize = 14.000
+MorphRemover.TextWrapped = true
+
+Exit.Name = "Exit"
+Exit.Parent = Main
+Exit.AnchorPoint = Vector2.new(1, 0.5)
+Exit.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Exit.BackgroundTransparency = 1.000
+Exit.BorderSizePixel = 0
+Exit.Position = UDim2.new(1, 0, 0.5, 0)
+Exit.Size = UDim2.new(0.0799999982, 0, 0.800000012, 0)
+Exit.Selected = true
+Exit.Font = Enum.Font.SourceSans
+Exit.Text = "X"
+Exit.TextColor3 = Color3.fromRGB(135, 71, 71)
+Exit.TextScaled = true
+Exit.TextSize = 14.000
+Exit.TextWrapped = true
+
+Close.Name = "Close"
+Close.Parent = Main
+Close.AnchorPoint = Vector2.new(1, 0.5)
+Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Close.BackgroundTransparency = 1.000
+Close.BorderSizePixel = 0
+Close.Position = UDim2.new(0.899999976, 0, 0.5, 0)
+Close.Size = UDim2.new(0.0799999982, 0, 0.800000012, 0)
+Close.Selected = true
+Close.Font = Enum.Font.SourceSans
+Close.Text = "_"
+Close.TextColor3 = Color3.fromRGB(125, 125, 125)
+Close.TextScaled = true
+Close.TextSize = 14.000
+Close.TextWrapped = true
+
+TextLabel.RichText = true
+TextLabel.Parent = Main
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.Size = UDim2.new(0.5, 0, 1, 0)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "<font color=\"rgb(100,255,100)\">Plus</font><font color=\"rgb(255,255,100)\">Hub</font><font color=\"rgb(100,255,255)\"> 2.0</font>"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local function SFIRBT_fake_script() -- Tabs.LocalScript 
+	local script = Instance.new('LocalScript', Tabs)
+
+	local current = script.Parent.Parent.OpenTabs.Home
+
+	for i, v in pairs(script.Parent:GetChildren()) do
+		if v:IsA("TextButton") then
+			v.MouseButton1Click:Connect(function()
+				if current ~= nil then
+					current.Visible = false
+				end
+				current = script.Parent.Parent.OpenTabs[v.Name]
+				current.Visible = true
+			end)
+		end
+	end
+end
+coroutine.wrap(SFIRBT_fake_script)()
