@@ -1,0 +1,3 @@
+if game.PlaceId == 155010111 then
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/Plusgaming1/Plus-Hub-2.0/Scripts/Animatronic%20World%20!",true))
+end
